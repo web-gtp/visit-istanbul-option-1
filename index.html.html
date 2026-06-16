@@ -87,42 +87,45 @@ iframe:focus-visible {
 
 /* ── Bottom nav ────────────────────────────────────── */
 .bnav {
-  position: sticky;
+  position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
-  flex-shrink: 0;
-  background: rgba(6,9,26,0.96);
+  right: 0;
+  z-index: 50;
+  background: rgba(6,9,26,0.97);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-top: 1px solid var(--border);
   display: flex;
-  z-index: 50;
-  /* safe-area requiere viewport-fit=cover en la meta */
-  padding: 0 4px env(safe-area-inset-bottom) 4px;
+  align-items: stretch;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 .bn {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 4px 8px;
+  justify-content: center;
   gap: 3px;
+  padding: 10px 2px;
   cursor: pointer;
   border: none;
   background: none;
   color: var(--mist);
-  font-size: 9.5px;
-  font-weight: 500;
-  letter-spacing: .4px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .45px;
   text-transform: uppercase;
-  transition: color .25s;
-  /* tap target mínimo 44 × 44 garantizado por el flex del bnav */
+  transition: color .2s;
   touch-action: manipulation;
+  min-height: 54px;
+  -webkit-appearance: none;
 }
-.bn .ico     { font-size: 20px; line-height: 1; }
-.bn.active   { color: var(--gold); }
-.bn .pip     { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); opacity: 0; transition: opacity .25s; }
+.bn .ico  { font-size: 22px; line-height: 1; display: block; }
+.bn .lbl  { display: block; }
+.bn.active { color: var(--gold); }
+.bn .pip  { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); opacity: 0; transition: opacity .2s; margin-top: 1px; }
 .bn.active .pip { opacity: 1; }
 
 /* ── Hero compartido ───────────────────────────────── */
@@ -362,7 +365,7 @@ iframe:focus-visible {
 .night-stars  { font-size: 20px; letter-spacing: 3px; margin-bottom: 10px; }
 
 /* ── Utilidades ────────────────────────────────────── */
-.spacer { height: 20px; }
+.spacer { height: 80px; } /* espacio para el nav fijo (~54px) + margen */
 .section-label { margin: 20px 16px 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); font-weight: 700; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .section-label .sl-note { font-size: 9px; letter-spacing: .5px; color: var(--mist); text-transform: none; font-weight: 500; }
 .pill-row { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 16px 12px; }
@@ -636,27 +639,6 @@ iframe:focus-visible {
   }
 }
 
-/* ─── BOTTOM NAV ──────────────────────────────── */
-.bnav {
-  position:sticky; bottom:0; left:0; width:100%; flex-shrink:0;
-  background:rgba(6,9,26,0.96);
-  backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
-  border-top:1px solid var(--border);
-  display:flex; z-index:50;
-  padding:0 4px calc(env(safe-area-inset-bottom)) 4px;
-}
-.bn {
-  flex:1; display:flex; flex-direction:column; align-items:center;
-  padding:10px 4px 8px; gap:3px;
-  cursor:pointer; border:none; background:none;
-  color:var(--mist); font-size:9.5px; font-weight:500;
-  letter-spacing:.4px; text-transform:uppercase;
-  transition:color .25s;
-}
-.bn .ico { font-size:20px; line-height:1; }
-.bn.active { color:var(--gold); }
-.bn .pip { width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .25s; }
-.bn.active .pip { opacity:1; }
 
 /* ─── HERO SHARED ─────────────────────────────── */
 .hero {
@@ -1059,7 +1041,7 @@ iframe:focus-visible {
     <span class="gift-emoji">🎁</span>
     <h1 class="gift-title">Tu Guía de<br><em>Estambul</em></h1>
     <p class="gift-subtitle">3 días completamente nuevos, cero repetición con lo ya recorrido. Rutas, mapas interactivos, precios y horarios — listo para abrir desde el celular.</p>
-    <div class="from-badge">✨ Hecho con amor — desde Colombia 🇨🇴</div>
+    <div class="from-badge">✨ Colombia 🇨🇴</div>
   </div>
 
   <div class="alert warn" style="margin-top:16px;">
@@ -2047,9 +2029,9 @@ iframe:focus-visible {
   </div>
 
   <div class="alert info" style="margin-bottom:24px;">
-    <div class="a-ico">🧡</div>
+    <div class="a-ico"></div>
     <div>
-      <strong>Con todo el cariño del mundo.</strong><br>
+      <strong></strong><br>
       Que estos 3 días sean tan especiales como los primeros 10 — disfruten cada esquina, cada té y cada atardecer. ¡Nos vemos pronto en casa! 🇨🇴✈️🇹🇷
     </div>
   </div>
@@ -2059,21 +2041,21 @@ iframe:focus-visible {
 <!-- ═══════════════════════════════════════════════ -->
 <!--  BOTTOM NAVIGATION                              -->
 <!-- ═══════════════════════════════════════════════ -->
-<nav class="bnav" style="display:flex; justify-content:center; align-items:center; text-align:center;">
-  <button class="bn active" id="bn-home" onclick="showTab('home')" aria-label="Inicio" style="flex:1; text-align:center;">
-    <span class="ico" style="display:block; text-align:center;">🏠</span>Inicio<span class="pip"></span>
+<nav class="bnav">
+  <button class="bn active" id="bn-home" onclick="showTab('home')" aria-label="Inicio">
+    <span class="ico">🏠</span><span class="lbl">Inicio</span><span class="pip"></span>
   </button>
-  <button class="bn" id="bn-a" onclick="showTab('a')" aria-label="Día A" style="flex:1; text-align:center;">
-    <span class="ico" style="display:block; text-align:center;">🌅</span>Día A<span class="pip"></span>
+  <button class="bn" id="bn-a" onclick="showTab('a')" aria-label="Día A">
+    <span class="ico">🌅</span><span class="lbl">Día A</span><span class="pip"></span>
   </button>
-  <button class="bn" id="bn-b" onclick="showTab('b')" aria-label="Día B" style="flex:1; text-align:center;">
-    <span class="ico" style="display:block; text-align:center;">⛴️</span>Día B<span class="pip"></span>
+  <button class="bn" id="bn-b" onclick="showTab('b')" aria-label="Día B">
+    <span class="ico">⛴️</span><span class="lbl">Día B</span><span class="pip"></span>
   </button>
-  <button class="bn" id="bn-c" onclick="showTab('c')" aria-label="Día C" style="flex:1; text-align:center;">
-    <span class="ico" style="display:block; text-align:center;">🌙</span>Día C<span class="pip"></span>
+  <button class="bn" id="bn-c" onclick="showTab('c')" aria-label="Día C">
+    <span class="ico">🌙</span><span class="lbl">Día C</span><span class="pip"></span>
   </button>
-  <button class="bn" id="bn-tips" onclick="showTab('tips')" aria-label="Tips" style="flex:1; text-align:center;">
-    <span class="ico" style="display:block; text-align:center;">💡</span>Tips<span class="pip"></span>
+  <button class="bn" id="bn-tips" onclick="showTab('tips')" aria-label="Tips">
+    <span class="ico">💡</span><span class="lbl">Tips</span><span class="pip"></span>
   </button>
 </nav>
 
